@@ -1,0 +1,86 @@
+@media screen and (min-width: 768px) {
+  .suggestionsContainer{
+    width: 720px;
+    max-width: 85%;
+  }
+}
+  
+
+@media screen and (min-width: 992px) {
+  .suggestionsContainer{
+    width: 960px;
+    max-width: 85%;
+  }
+}  
+
+@media screen and (min-width: 1200px) {
+  .suggestionsContainer{
+    width: 1140px;
+    max-width: 85%;
+  }
+}  
+
+.suggestionsContainer{
+  font-family: 'Muli', sans-serif;
+  position: relative;
+  margin: 0 auto;
+}
+
+
+.restaurantCard{
+  padding: 0 20px;
+  height: auto;
+  width: auto;
+  box-sizing: border-box;
+  max-width: 33%;
+  flex: 1 0 33%;
+}
+
+@media screen and (max-width: 740px) {
+  .restaurantCard{ 
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+}
+
+
+.carouselBody{
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  overflow: auto;
+  display: flex;
+  scroll-behavior: smooth;
+}
+
+.carouselBody::-webkit-scrollbar {
+  display: none;
+}
+
+.greyStars{
+  color: #d8d8d8;
+  margin-bottom: 2px;
+  margin-right: 2px;
+}
+
+.orangeStars{
+  color: orange;
+  margin-bottom: 2px;
+  margin-right: 2px;
+}
+
+.bookmarkButton{
+  border-radius: 50%;
+  height: 36px;
+  width: 36px;
+  border: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,.1);
+}
+
+.bookmarkButton:hover {
+  cursor: pointer;
+}
+
+.bookmarkButton:focus {
+  outline: none;
+}
