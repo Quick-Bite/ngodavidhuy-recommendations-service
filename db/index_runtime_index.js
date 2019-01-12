@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
 // mongodb://localhost/grubhub
-mongoose.connect('mongodb://localhost/TESTING', {useNewUrlParser: true});
-mongoose.set('useCreateIndex', true);
+mongoose.connect('mongodb://localhost/grubhub', {useNewUrlParser: true, autoIndex: false});
+// mongoose.connect('mongodb://localhost/grubhub');
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -12,7 +12,7 @@ db.once('open', () =>  {
 });
 
 const suggestionSchema = new mongoose.Schema({
-  id: Number,
+  _id: Number,
   name: String,
   food: String,
   waitingTime: Number,
@@ -21,17 +21,17 @@ const suggestionSchema = new mongoose.Schema({
   reviewSummary: Object,
   review: Object,
   picture: String,
-  suggestions: Array,
+  region: {
+    type: Number,
+    index: true
+  },
   bookmarked: Boolean,
 });
 
 
-const Suggestion = mongoose.model('embedded', suggestionSchema);
+const Suggestion = mongoose.model('JDOG', suggestionSchema);
 
 
 module.exports = {
   Suggestion,
 };
-
-
-
