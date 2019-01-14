@@ -3,7 +3,7 @@ DROP TABLE restaurants;
 CREATE TABLE restaurants (
   _id serial PRIMARY KEY NOT NULL,
   name VARCHAR(50) NOT NULL,
-  food VARCHAR(50) NOT NULL,
+  description VARCHAR(50) NOT NULL,
   wait_time INT NOT NULL,
   price_range INT NOT NULL,
   review_count INT NOT NULL,
