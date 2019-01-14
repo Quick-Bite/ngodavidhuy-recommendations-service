@@ -71,7 +71,7 @@ async function seedPSQL(outer, inner) {
 
 async function timeSeed () {
   let before = Date.now();
-  await seedPSQL(1000, 10000);
+  await seedPSQL(1, 1000);
   let after = Date.now();
   console.log(`PSQL Seeding finished in ${(after - before) / 60000} minutes!`);
 } 

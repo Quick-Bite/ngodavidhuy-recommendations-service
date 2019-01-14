@@ -23,4 +23,6 @@ app.get('/restaurants/:id/suggestions', (req, res) => {
   });
 });
 
+app.post('/restaurants', db.createRestaurant);
+
 app.listen(PORT, () => { console.log(`listening on port ${PORT}`); });

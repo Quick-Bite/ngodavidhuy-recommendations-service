@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
 // mongodb://localhost/grubhub
-mongoose.connect('mongodb://localhost/grubhub', {useNewUrlParser: true, autoIndex: false});
+mongoose.connect('mongodb://localhost/grubhub', {useNewUrlParser: true});
 // mongoose.connect('mongodb://localhost/grubhub');
 
 const db = mongoose.connection;
@@ -28,9 +28,7 @@ const suggestionSchema = new mongoose.Schema({
   bookmarked: Boolean,
 });
 
-
-const Suggestion = mongoose.model('JDOG', suggestionSchema);
-
+const Suggestion = mongoose.model('jdogs', suggestionSchema);
 
 module.exports = {
   Suggestion,
