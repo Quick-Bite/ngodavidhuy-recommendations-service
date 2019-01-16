@@ -48,12 +48,12 @@ const get = (id, callback) => {
   });
 };
 
-const createRestaurant
 
 
 
 module.exports = {
   Suggestion,
+  get
 };
 
 

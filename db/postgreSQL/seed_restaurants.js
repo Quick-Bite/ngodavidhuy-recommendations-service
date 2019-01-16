@@ -1,10 +1,9 @@
 const faker = require('faker');
 const config = require('./config');
-const { Pool, Client } = require('pg');
 var pgp = require('pg-promise')({
   capSQL: true // capitalize all generated SQL
 });
-
+const db = pgp(config);
 
 const pictures = ['https://s.hdnux.com/photos/72/15/17/15350667/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15352415/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15346423/7/premium_landscape.jpg',
   'https://s.hdnux.com/photos/72/15/17/15347780/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15351888/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15351104/7/premium_landscape.jpg',
@@ -15,68 +14,84 @@ const pictures = ['https://s.hdnux.com/photos/72/15/17/15350667/7/premium_landsc
   'https://s.hdnux.com/photos/72/15/17/15351087/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15347660/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15346506/7/premium_landscape.jpg',
 ];
 
-const db = pgp(config);
+const allCuisines = [
+  'alcohol', 'american', 'asian', 'bbq', 'bagels', 'bakery', 'cheesesteaks', 'chicken', 'chinese', 'coffee and tea', 'crepes', 'deli', 
+  'dessert', 'dim sum', 'eclectic', 'french', 'gluten-free', 'grocery items', 'gyro', 'halal', 'hamburgers', 'hawaiian', 'healthy', 'ice cream', 
+  'indian', 'italian', 'japanese', 'jamaican', 'korean', 'latin american', 'lunch specials', 'mediterranean', 'mexican', 'middle eastern', 
+  'noodles', 'organic', 'pasta', 'pizza', 'ramen', 'salads', 'sandwiches', 'seafood', 'smoothies and juices', 'soup', 'southern', 'subs', 
+  'sushi', 'thai', 'vegan', 'vegetarian', 'vietnamese', 'wings', 'wraps'
+];
 
-const cs = new pgp.helpers.ColumnSet(['id', 'name', 'food', 'wait_time', 'minimum', 'review_no', 'review_summary', 'review', 'picture', 'suggestions', 'bookmarked'], {table: 'suggestions'});
+
+
+const cs = new pgp.helpers.ColumnSet(['_id', 'name', 'city', 'price_range', 'tag1', 'tag2', 'wait_time', 'min_price', 'review_count', 'star_rating', 'food_rating', 
+'delivery_rating', 'order_accuracy_rating', 'featured_review', 'featured_username', 'picture', 'bookmarked'], {table: 'restaurants'});
 
 async function seedPSQL(outer, inner) {
   let counter = 1;
   for (let j = 0; j < outer; j++) {
     let restaurantsBatch = [];
     for (let i = 0; i < inner; i++) {
-      const suggestions = {};
-      let s = 0;
-      while (s < 12) {
-        const randomNum = faker.random.number({
-          min: 1,
-          max: 10000000,
-        });
-        if (!suggestions[randomNum] && randomNum !== counter) {
-          suggestions[randomNum] = randomNum;
-          s += 1;
+
+      let tags = [];
+
+      while (tags.length < 2) {
+        let randomTag = allCuisines[Math.floor(Math.random() * allCuisines.length)];
+        if (tags.indexOf(randomTag) === -1) {
+          tags.push(randomTag);
         }
       }
 
       let restaurant = {
-            id: counter,
-            name: faker.company.companyName(),
-            food: faker.lorem.words(),
+            _id: counter,
+            name: faker.lorem.word(),
+            city: faker.random.number({
+              min: 1,
+              max: 482,
+            }),
+            price_range: faker.random.number({
+              min: 1,
+              max: 5,
+            }),
+            tag1: tags[0],
+            tag2: tags[1],
             wait_time: faker.random.number(60),
-            minimum: faker.random.number(15),
-            review_no: faker.random.number(2000),
-            review_summary: JSON.stringify({
-              stars: faker.random.number(100),
-              good: faker.random.number(100),
-              onTime: faker.random.number({
-                min: 60,
-                max: 100,
-              }),
-              accurate: faker.random.number({
-                min: 70,
-                max: 100,
-              }),
+            min_price: faker.random.number(15),
+            review_count: faker.random.number(2000),
+            star_rating: faker.random.number({
+              min: 1,
+              max: 100
             }),
-            review: JSON.stringify({
-              username: faker.name.firstName(),
-              review: faker.lorem.sentence(),
+            food_rating: faker.random.number({
+              min: 60,
+              max: 100
             }),
+            delivery_rating: faker.random.number({
+              min: 60,
+              max: 100
+            }),
+            order_accuracy_rating: faker.random.number({
+              min: 60,
+              max: 100
+            }),
+            featured_review: faker.lorem.sentence(),
+            featured_username: faker.name.firstName(),
             picture: pictures[faker.random.number(pictures.length - 1)],
-            suggestions: Object.values(suggestions),
             bookmarked: faker.random.boolean(),
           };
-          restaurantsBatch.push(restaurant);
           console.log(counter);
           counter++;
+          restaurantsBatch.push(restaurant);
     }
     const queryStr = pgp.helpers.insert(restaurantsBatch, cs);
 
     await db.none(queryStr)
-    .then( data => {
-      console.log('Batch seeded!')
+    .then( () => {
+      console.log('Batch seeded!');
     })
     .catch( err => {
       if (err) {
-        console.log('INSIDE CATCH: ', err)
+        console.log('INSIDE CATCH: ', err);
       }
     });
   }
