@@ -1,19 +1,19 @@
 let template = (restaurantId) => {
   return `<!DOCTYPE html>
-  <html lang="en">
+  <html>
     <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Sidebar</title>
+      <title>Grubhub Suggestions</title>
+      <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Muli:400,900" rel="stylesheet">
     </head>
     <body>
-      <div id="suggestions">
+      <div id="Suggestions">
       </div>
       <script type="text/javascript" src="/bundle.js"></script>
       <script>
         ReactDOM.render(
           React.createElement(Suggestions, {restaurantId: ${restaurantId}}, null),
-          document.getElementById('suggestions')
+          document.getElementById('Suggestions')
         );
       </script>
     </body>
