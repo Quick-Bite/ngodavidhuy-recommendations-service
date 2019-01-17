@@ -1,0 +1,20 @@
+const mongoose = require('mongoose');
+
+const restaurantSchema = new mongoose.Schema({
+  _id: Number,
+  name: String,
+  city: Number,
+  description_tags: [String],
+  price_range: Number,
+  minimum_price: Number,
+  wait_time: Number,
+  review_count: Number,
+  ratings: Object,
+  featured_review: Object,
+  picture: String,
+  bookmarked: Boolean,
+});
+
+const Restaurant = mongoose.model('restaurants', restaurantSchema);
+
+module.exports = Restaurant;
