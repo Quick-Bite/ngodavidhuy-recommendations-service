@@ -36,8 +36,6 @@ class Suggestions extends React.Component {
 
         this.setState({
           restaurants,
-        }, () => {
-          console.log(this.state.restaurants)
         });
       })
       .catch((err) => {
