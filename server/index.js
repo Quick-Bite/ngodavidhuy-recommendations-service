@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-app.get('/restaurant/:restaurantId', (req, res) => {
+app.get('/restaurants/:restaurantId', (req, res) => {
   const restaurantId = req.params.restaurantId;
   res.status(200).send(template(restaurantId));
 });
