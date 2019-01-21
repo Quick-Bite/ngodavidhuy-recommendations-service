@@ -63,7 +63,5 @@ typings/
 config.js
 .DS_Store
 package-lock.json
-newrelic.js
 dump.rdb
-k6_load_testing.js
 package-lock.json

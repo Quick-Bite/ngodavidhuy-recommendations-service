@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
-const mongoURI = 'mongodb://localhost:27017/sdc'
+const config = require('../config').db;
+const mongoURI = `mongodb://${config.username}:${config.password}@${config.host}:${config.port}/${config.db_name}`
 const db = mongoose.connect(mongoURI, {useNewUrlParser: true, poolSize: 10});
 
 db

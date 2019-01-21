@@ -8,11 +8,11 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const db = require('../db');
 const restaurant = require('./controllers/restaurant');
-const template = require('./template/template2.js');
+const template = require('./template/template.js');
 
   const app = express();
   app.use(cors());
-  // app.use(morgan('dev'));
+  app.use(morgan('dev'));
   app.use(bodyParser.json());
   app.use(express.static(path.join(__dirname, '../client/dist')));
   

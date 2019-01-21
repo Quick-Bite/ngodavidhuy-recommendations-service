@@ -15,6 +15,9 @@ const restaurantSchema = new mongoose.Schema({
   bookmarked: Boolean,
 });
 
+restaurantSchema.index({city: 1, description_tags: 1, price_range: 1});
+
 const Restaurant = mongoose.model('restaurants', restaurantSchema);
+
 
 module.exports = Restaurant;
