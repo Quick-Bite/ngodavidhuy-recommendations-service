@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const mongoURI = 'mongodb://localhost:27017/sdc'
-const db = mongoose.connect(mongoURI, {useNewUrlParser: true});
+const db = mongoose.connect(mongoURI, {useNewUrlParser: true, poolSize: 10});
 
 db
   .then( () => console.log(`Connected to: ${mongoURI}`))

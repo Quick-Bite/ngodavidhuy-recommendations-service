@@ -22,8 +22,7 @@ class Suggestions extends React.Component {
   }
 
   componentDidMount() {
-    
-    const route = this.props.restaurantId !== undefined ? `http://127.0.0.1:3005/restaurantInfo/${this.props.restaurantId}` : `http://127.0.0.1:3005/restaurantInfo/1`;
+    const route = this.props.id !== undefined ? `http://127.0.0.1:3005/restaurants/${this.props.id}/suggestions` : `http://127.0.0.1:3005/restaurants/1/suggestions`;
     axios.get(route)
       .then((response) => {
         let restaurants = response.data.filter( restaurant => {

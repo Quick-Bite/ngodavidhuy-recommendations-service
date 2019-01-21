@@ -11,8 +11,7 @@
     "start": "nodemon server/index.js",
     "react-dev": "webpack -d --watch --mode production",
     "seed": "node db/seeding.js",
-    "docker": "node db/seeding.js && node server/index.js",
-    "test": "node db/writeStreamTest.js"
+    "docker": "node db/seeding.js && node server/index.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -23,12 +22,14 @@
     "express": "^4.16.4",
     "mongoose": "^5.4.2",
     "morgan": "^1.9.1",
+    "newrelic": "^5.1.0",
     "objects-to-csv": "^1.2.1",
     "pg": "^7.7.1",
     "pg-promise": "^8.5.4",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-media": "^1.9.2"
+    "react-media": "^1.9.2",
+    "redis": "^2.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

@@ -10,12 +10,6 @@ let template = (id) => {
       <div id="Suggestions">
       </div>
       <script type="text/javascript" src="/bundle.js"></script>
-      <script>
-        ReactDOM.render(
-          React.createElement(Suggestions, {restaurantId: ${id}}, null),
-          document.getElementById('Suggestions')
-        );
-      </script>
     </body>
   </html>`;
 }
