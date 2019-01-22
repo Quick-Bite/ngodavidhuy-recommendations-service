@@ -37,7 +37,7 @@ const template = require('./template/template.js');
   
   app.put('/restaurants/:id', restaurant.updateRestaurant);
   
-  app.delete('/restaurants/:id', restaurant.removeExistingRestaurant);
+  app.delete('/restaurants/:id', restaurant.removeRestaurant);
   
   const PORT = 3005;
   app.listen(PORT, () => { console.log(`listening on port ${PORT}`); });

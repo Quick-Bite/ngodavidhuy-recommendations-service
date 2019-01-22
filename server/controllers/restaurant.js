@@ -2,6 +2,25 @@
 // var redis = redisClient(6379, 'localhost');
 const Restaurant = require('../../db/models/Restaurant');
 const faker = require('faker');
+const db = require('../../db/index');
+
+const pictures = [
+  'https://s.hdnux.com/photos/72/15/17/15350667/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15352415/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15346423/7/premium_landscape.jpg',
+  'https://s.hdnux.com/photos/72/15/17/15347780/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15351888/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15351104/7/premium_landscape.jpg',
+  'https://s.hdnux.com/photos/72/15/17/15346491/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15346499/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15347796/7/premium_landscape.jpg',
+  'https://s.hdnux.com/photos/72/15/17/15346491/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15352160/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15352126/7/premium_landscape.jpg',
+  'https://s.hdnux.com/photos/72/15/17/15351111/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15351873/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15351099/7/premium_landscape.jpg',
+  'https://s.hdnux.com/photos/72/15/17/15351870/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15351258/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15352488/7/premium_landscape.jpg',
+  'https://s.hdnux.com/photos/72/15/17/15351087/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15347660/7/premium_landscape.jpg', 'https://s.hdnux.com/photos/72/15/17/15346506/7/premium_landscape.jpg',
+];
+
+const allCuisines = [
+  'alcohol', 'american', 'asian', 'bbq', 'bagels', 'bakery', 'cheesesteaks', 'chicken', 'chinese', 'coffee and tea', 'crepes', 'deli', 
+  'dessert', 'dim sum', 'eclectic', 'french', 'gluten-free', 'grocery items', 'gyro', 'halal', 'hamburgers', 'hawaiian', 'healthy', 'ice cream', 
+  'indian', 'italian', 'japanese', 'jamaican', 'korean', 'latin american', 'lunch specials', 'mediterranean', 'mexican', 'middle eastern', 
+  'noodles', 'organic', 'pasta', 'pizza', 'ramen', 'salads', 'sandwiches', 'seafood', 'smoothies and juices', 'soup', 'southern', 'subs', 
+  'sushi', 'thai', 'vegan', 'vegetarian', 'vietnamese', 'wings', 'wraps'
+];
 
 //CREATE
 exports.createNewRestaurant = (req, res) => {
@@ -32,9 +51,11 @@ exports.createNewRestaurant = (req, res) => {
 
     Restaurant.create(newRestaurant)
     .then((results) => res.status(201).send(results))
-    .catch(res.status(500).send(err))
+    .catch(err =>  res.status(500).send(err));
   })
   .catch(err =>  res.status(500).send(err));
+  
+  
 };
 
 // READ
@@ -99,6 +120,17 @@ exports.getSuggestions = (req, res) => {
 
 //UPDATE
 exports.updateRestaurant = (req, res) => {
+  let description_tags = {};
+
+  let tagCount = 0;
+  while (tagCount < 2) {
+    let randomTag = allCuisines[Math.floor(Math.random() * allCuisines.length)];
+    if (!description_tags[randomTag]) {
+      description_tags[randomTag] = randomTag;
+      tagCount++;
+    }
+  }
+
   let updatedRestaurant = {
     _id: req.params.id,
     name: faker.company.companyName(),
@@ -144,49 +176,13 @@ exports.updateRestaurant = (req, res) => {
       return res.status(204).send(err);
     }
     return res.status(200).send(results);
-  }).lean();
+  });
 };
 
 //DELETE
-exports.removeExistingRestaurant = (req, res) => {
-  Restaurant.findByIdAndRemove({_id: req.body._id}, (err, results) => {
-    if (err) {
-      return res.status(404).send(err);
-    }
-    return res.status(202).send(results);
-  }).lean();
+exports.removeRestaurant = (req, res) => {
+  Restaurant.deleteOne({_id: req.params.id})
+  .then(() => res.status(202).send(`Record ${req.params.id} deleted!`))
+  .catch(err => res.status(404).send(err));
 };
 
-// exports.createNewRestaurant = async (req, res) => {
-//   let lastRecord = await Restaurant.find({}).sort({_id: -1}).limit(1);
-//   console.log(lastRecord[0]._id);
-//   let newRestaurant = {
-//     _id: lastRecord[0]._id + 1,
-//     name: 'Hack Reactor',
-//     city: 505,
-//     description_tags: ['alcohol', 'bakery'],
-//     price_range: 5,
-//     minimum_price: 1,
-//     wait_time: 1,
-//     review_count: 1,
-//     ratings: {
-//       star_rating: 50,
-//       food_rating: 60,
-//       delivery_rating: 60,
-//       order_accuracy_rating: 60
-//     },
-//     featured_review: {
-//       username: 'wavydavy',
-//       review: 'stress testing my post',
-//     },
-//     picture: 'https://s.hdnux.com/photos/72/15/17/15351087/7/premium_landscape.jpg',
-//     bookmarked: false,
-//   };
-
-//   await Restaurant.insertMany([newRestaurant], (err, results) => {
-//     if (err) {
-//       return res.status(422).send(err);
-//     }
-//     return res.status(201).send(results);
-//   });
-// };
