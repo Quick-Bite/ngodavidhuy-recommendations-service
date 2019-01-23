@@ -106,7 +106,7 @@ exports.getSuggestions = (req, res) => {
            description_tags: { $in: [tags[0], tags[1]]},
            price_range: current.price_range 
           } },
-         { $sample: { size: 13 } }
+         { $limit: 13 }
         ],
         (err, body) => {
           if (err) {
