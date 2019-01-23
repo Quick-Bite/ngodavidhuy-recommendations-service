@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Carousel from './Carousel.jsx';
 import TooltipList from './TooltipList.jsx';
+const AWS = require('../../../config.js').AWS;
 
 class Suggestions extends React.Component {
   constructor(props) {
@@ -22,7 +23,8 @@ class Suggestions extends React.Component {
   }
 
   componentDidMount() {
-    const route = this.props.id !== undefined ? `http://127.0.0.1:3005/restaurants/${this.props.id}/suggestions` : `http://127.0.0.1:3005/restaurants/1/suggestions`;
+    // const route = this.props.id !== undefined ? `http://${AWS.publicIP}:3005/restaurants/${this.props.id}/suggestions` : `http://${AWS.publicAP}:3005/restaurants/1/suggestions`;
+    const route = `${window.location.pathname}/suggestions`;
     axios.get(route)
       .then((response) => {
         let restaurants = response.data.filter( restaurant => {

@@ -23,7 +23,7 @@ const allCuisines = [
 ];
 
 async function seedMongoDB(outer, inner) {
-  let counter = 9307598;
+  let counter = 1;
   for (let j = 0; j < outer; j++) {
     let restaurantsBatch = [];
     for (let i = 0; i < inner; i++) {
@@ -88,7 +88,7 @@ async function seedMongoDB(outer, inner) {
 
 async function timeSeed() {
   let before = Date.now();
-  await seedMongoDB(700, 1000);
+  await seedMongoDB(10000, 1000);
   let after = Date.now();
   console.log(`MongoDB seeding finished in ${(after - before) / 60000} minutes!`)
 } 
