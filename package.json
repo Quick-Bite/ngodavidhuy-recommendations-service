@@ -8,7 +8,7 @@
     "node": ">=6.13.0"
   },
   "scripts": {
-    "start": "nodemon server/index.js",
+    "start": "node server/index.js",
     "react-dev": "webpack -d --watch --mode production",
     "seed": "node db/seeding.js",
     "docker": "node db/seeding.js && node server/index.js"
@@ -21,7 +21,6 @@
     "express": "^4.16.4",
     "mongoose": "^5.4.2",
     "newrelic": "^5.1.0",
-    "objects-to-csv": "^1.2.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-media": "^1.9.2",
