@@ -1,4 +1,4 @@
-const newrelic = require('newrelic');
+require('newrelic');
 const config = require('../config').redis;
 const path = require('path');
 const express = require('express');
