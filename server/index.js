@@ -1,6 +1,5 @@
-const config = require('../config').redis;
-const redisClient = require('redis').createClient;
 const newrelic = require('newrelic');
+const config = require('../config').redis;
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
@@ -10,9 +9,10 @@ const db = require('../db');
 const restaurant = require('./controllers/restaurant');
 const template = require('./template/template.js');
 
+const redisClient = require('redis').createClient;
 const redis = redisClient(6379, `${config.host}`, {password: `${config.password}`});
 redis.on('connect', () => {
-  console.log('REDIS INSIDE SERVER INDEX CONNECTED');
+  console.log('REDIS INSIDE SERVER CONNECTED');
 });
 
 redis.on('error', (err) => {
