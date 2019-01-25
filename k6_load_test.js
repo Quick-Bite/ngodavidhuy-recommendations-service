@@ -1,14 +1,18 @@
 import http from "k6/http";
 import { check } from "k6";
 
-const getInt = (start, stop) => (Math.floor((Math.random() * (stop - start) + start)));
+const getInt = (start, stop) => {
+  return Math.floor((Math.random() * (stop - start) + start));
+}
 
-const bias = () => Math.random() < 0.9;
+const bias = () => Math.random() < 0.6;
 
-const id = (bias()) ? getInt(9999000, 10000000) : getInt(1, 10000000);
+const id = () => {
+  return (bias()) ? getInt(9999000, 10000000) : getInt(1, 10000000);
+}
 
 export let options = {
-  vus: 150,
+  vus: 50,
   duration: "300s"
 };
 

@@ -1,5 +1,12 @@
-// var redisClient = require('redis').createClient;
-// var redis = redisClient(6379, 'localhost');
+const redisClient = require('redis').createClient;
+const redis = redisClient(6379, `${config.host}`, {password: `${config.password}`});
+redis.on('connect', () => {
+  console.log('REDIS INSIDE SERVER CONNECTED');
+});
+
+redis.on('error', (err) => {
+  console.log('REDIS ERROR: ', err);
+});
 const newrelic = require('newrelic');
 const path = require('path');
 const express = require('express');
@@ -21,17 +28,17 @@ const template = require('./template/template.js');
     res.status(200).send(template(id));
   });
    
-  // app.get('/restaurants/:id/suggestions', (req, res) => {
-  //   if (!req.params.id) {
-  //     res.status(400).send("No restaurant ID provided");
-  //   } else {
-  //     restaurant.getSuggestionsCached(redis, req.params.id, (response) => {
-  //       res.status(200).send(response);
-  //     });
-  //   }
-  // });
+  app.get('/restaurants/:id/suggestions', (req, res) => {
+    if (!req.params.id) {
+      res.status(400).send("No restaurant ID provided");
+    } else {
+      restaurant.getSuggestionsCached(redis, req.params.id, (response) => {
+        res.status(200).send(response);
+      });
+    }
+  });
 
-  app.get('/restaurants/:id/suggestions', restaurant.getSuggestions);
+  // app.get('/restaurants/:id/suggestions', restaurant.getSuggestions);
   
   app.post('/restaurants/', restaurant.createNewRestaurant);
   

@@ -1,5 +1,13 @@
-// var redisClient = require('redis').createClient;
-// var redis = redisClient(6379, 'localhost');
+const redisClient = require('redis').createClient;
+const redis = redisClient(6379, `${config.host}`, {password: `${config.password}`});
+redis.on('connect', () => {
+  console.log('REDIS INSIDE SERVER CONNECTED');
+});
+
+redis.on('error', (err) => {
+  console.log('REDIS ERROR: ', err);
+});
+
 const Restaurant = require('../../db/models/Restaurant');
 const faker = require('faker');
 const db = require('../../db/index');
@@ -58,65 +66,65 @@ exports.createNewRestaurant = (req, res) => {
   
 };
 
-// READ
-// exports.getSuggestionsCached = (redis, _id, callback) => {
-//   redis.get(_id, (err, reply) => {
-//     if (err) {
-//       callback(null) 
-//     } else if (reply) {
-//       callback(JSON.parse(reply));
-//     } else {
-//       Restaurant.find({_id: _id}, (err, doc) => {
-//         if (err || !doc) {
-//           callback(null);
-//         } else {
-//           let current = doc[0];
-//           let tags = current.description_tags;
-//           Restaurant.aggregate([ 
-//              { $match: {
-//                city: current.city,
-//                description_tags: { $in: [tags[0], tags[1]]},
-//                price_range: current.price_range 
-//               } },
-//              { $sample: { size: 13 } }
-//             ],
-//             (err, body) => {
-//               if (err) {
-//                 callback(null);
-//               }
-//               redis.set(_id, JSON.stringify(body))
-//               callback(body);
-//             });
-//         }
-//       });
-//     }
-//   })
-// };
-
-exports.getSuggestions = (req, res) => {
-  Restaurant.find({_id: req.params.id}, (err, results) => {
+READ
+exports.getSuggestionsCached = (redis, _id, callback) => {
+  redis.get(_id, (err, reply) => {
     if (err) {
-      res.status(500).send(err);
+      callback(null) 
+    } else if (reply) {
+      callback(JSON.parse(reply));
     } else {
-      let current = results[0];
-      let tags = current.description_tags;
-      Restaurant.aggregate([ 
-         { $match: {
-           city: current.city,
-           description_tags: { $in: [tags[0], tags[1]]},
-           price_range: current.price_range 
-          } },
-         { $limit: 13 }
-        ],
-        (err, body) => {
-          if (err) {
-            res.status(500).send(err);
-          }
-          res.status(200).json(body);
-        });
+      Restaurant.find({_id: _id}, (err, doc) => {
+        if (err || !doc) {
+          callback(null);
+        } else {
+          let current = doc[0];
+          let tags = current.description_tags;
+          Restaurant.aggregate([ 
+             { $match: {
+               city: current.city,
+               description_tags: { $in: [tags[0], tags[1]]},
+               price_range: current.price_range 
+              } },
+              { $limit: 13 }
+            ],
+            (err, body) => {
+              if (err) {
+                callback(null);
+              }
+              redis.set(_id, JSON.stringify(body))
+              callback(body);
+            });
+        }
+      });
     }
-  });
+  })
 };
+
+// exports.getSuggestions = (req, res) => {
+//   Restaurant.find({_id: req.params.id}, (err, results) => {
+//     if (err) {
+//       res.status(500).send(err);
+//     } else {
+//       let current = results[0];
+//       let tags = current.description_tags;
+//       Restaurant.aggregate([ 
+//          { $match: {
+//            city: current.city,
+//            description_tags: { $in: [tags[0], tags[1]]},
+//            price_range: current.price_range 
+//           } },
+//          { $limit: 13 }
+//         ],
+//         (err, body) => {
+//           if (err) {
+//             res.status(500).send(err);
+//           }
+//           res.status(200).json(body);
+//         });
+//     }
+//   });
+// };
 
 //UPDATE
 exports.updateRestaurant = (req, res) => {
