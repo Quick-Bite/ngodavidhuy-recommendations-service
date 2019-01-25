@@ -1,7 +1,8 @@
+const config = require('../../config').redis
 const redisClient = require('redis').createClient;
 const redis = redisClient(6379, `${config.host}`, {password: `${config.password}`});
 redis.on('connect', () => {
-  console.log('REDIS INSIDE SERVER CONNECTED');
+  console.log('REDIS INSIDE SERVER CONTROLLER CONNECTED');
 });
 
 redis.on('error', (err) => {
@@ -66,7 +67,7 @@ exports.createNewRestaurant = (req, res) => {
   
 };
 
-READ
+//READ
 exports.getSuggestionsCached = (redis, _id, callback) => {
   redis.get(_id, (err, reply) => {
     if (err) {
