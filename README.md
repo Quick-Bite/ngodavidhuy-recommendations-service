@@ -1,13 +1,13 @@
 # Project Name
 
-> Project description
+> Quick-Bite - Clone of Grubhub's item's details page. This is the recommendations/suggestions microservice.
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/Quick-Bite/klarok-menu-service
+  - https://github.com/Quick-Bite/makardjian-profile-service
+  - https://github.com/Quick-Bite/ngodavidhuy-recommendations-service
+  - https://github.com/Quick-Bite/psmorimoto-reviews-service
 
 ## Table of Contents
 
@@ -17,7 +17,9 @@
 
 ## Usage
 
-> Some usage instructions
+> This is one of the four microservices listed above, all four are set-up to be run together on AWS in a proxy server
+
+Run "npm run seed" to seed your local DB
 
 ## Requirements
 
@@ -33,92 +35,8 @@ An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 From within the root directory:
 
 ```sh
-npm install -g webpack
 npm install
 ```
 
-## CRUD Routes
-
-### MongoDB
-
-CREATE:
-
-```sh
-db.insertOne({
-  _id: ?,
-  name: ?,
-  description: ?,
-  wait_time: ?,
-  price_range: ?,
-  review_count: ?,
-  star_rating: ?,
-  good_rating: ?,
-  delivery_rating: ?,
-  accuracy_rating: ?,
-  username: ?,
-  review: ?,
-  picture: ?,
-  region: ?,
-  bookmarked: ?
-});
-
-```
-
-READ:
-
-```sh
-db.restaurants.find({region: ?}).limit(12);
-```
-
-UPDATE:
-
-```sh
-db.restaurants.update(
-  { _id: ? },
-  { 
-    $inc: { review_count: ? },
-    $set: {
-      star_rating: ?,
-      good_rating: ?,
-      delivery_rating: ?,
-      ...
-      etc
-    }
-  }
-);
-```
-
-DELETE:
-
-```sh
-db.restaurants.deleteOne( { "_id" : ? } );
-```
-
-
-### PostgreSQL
-
-CREATE:
-
-```sh
-INSERT INTO restaurants (_id, description, wait_time, price_range, review_count, star_rating, good_rating, delivery_rating, accuracy_rating, username_featured, review_featured, picture, region, bookmarked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-```
-
-READ:
-
-```sh
-SELECT * FROM restaurants WHERE region = ? LIMIT(12);
-```
-
-UPDATE:
-
-```sh
-UPDATE restaurants SET (? ... ?) = (? ... ?) WHERE _id = ?;
-```
-
-DELETE:
-
-```sh
-DELETE FROM restaurants WHERE _id = ?;
-```
 
 
